@@ -5,7 +5,7 @@ import java.util.Date;
 public class Consumo {
     private Integer id, kmAtual, qtdAbastecida;
     private Float valor;
-    private Date data;
+    private String data;
 
     public Integer getId() {
         return id;
@@ -39,11 +39,11 @@ public class Consumo {
         this.valor = valor;
     }
 
-    public Date getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(String data) {
         this.data = data;
     }
 
