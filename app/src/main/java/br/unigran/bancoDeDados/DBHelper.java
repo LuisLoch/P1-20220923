@@ -9,9 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class DBHelper extends SQLiteOpenHelper {
-    public DBHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
-    }
+    public DBHelper(@Nullable Context context) { super(context, "BancoConsumos", null, 1); }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
