@@ -61,11 +61,14 @@
         app:layout_constraintTop_toBottomOf="@+id/idQtdAbastecida" />
 
     <LinearLayout
-        android:layout_width="404dp"
-        android:layout_height="530dp"
+        android:layout_width="391dp"
+        android:layout_height="519dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="200dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idBotao">
 
         <ListView
             android:id="@+id/idLista"
@@ -77,22 +80,31 @@
         android:id="@+id/idBotao"
         android:layout_width="185dp"
         android:layout_height="50dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="34dp"
+        android:onClick="salvar"
         android:text="@string/salvar"
-        tools:layout_editor_absoluteX="215dp"
-        tools:layout_editor_absoluteY="150dp" />
+        app:layout_constraintStart_toEndOf="@+id/idMediaConsumo"
+        app:layout_constraintTop_toBottomOf="@+id/idData" />
 
     <TextView
         android:id="@+id/idMediaConsumo"
         android:layout_width="185dp"
         android:layout_height="50dp"
-        tools:layout_editor_absoluteX="11dp"
-        tools:layout_editor_absoluteY="150dp" />
+        android:layout_marginStart="11dp"
+        android:layout_marginEnd="19dp"
+        app:layout_constraintEnd_toStartOf="@+id/idBotao"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idMediaConsumoLabel" />
 
     <TextView
         android:id="@+id/idMediaConsumoLabel"
         android:layout_width="185dp"
         android:layout_height="35dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginEnd="215dp"
         android:text="@string/mediaConsumo"
-        tools:layout_editor_absoluteX="11dp"
-        tools:layout_editor_absoluteY="115dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idValor" />
 </androidx.constraintlayout.widget.ConstraintLayout>

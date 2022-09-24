@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">P1</string>
-    <string name="kmAtual">Km atual:</string>
-    <string name="qtdAbastecida">Qtd abastecida:</string>
-    <string name="valorGasto">Valor gasto:</string>
+    <string name="kmAtual">Km atual (Km):</string>
+    <string name="qtdAbastecida">Qtd abastecida (L):</string>
+    <string name="valorGasto">Valor gasto (R$):</string>
     <string name="data">Data:</string>
     <string name="salvar">SALVAR</string>
-    <string name="mediaConsumo">Média de consumo:</string>
+    <string name="mediaConsumo">Média de Km/L:</string>
 </resources>

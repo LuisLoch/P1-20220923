@@ -5,9 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.ListView;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 
 import br.unigran.p1.Consumo;
 
@@ -25,7 +23,7 @@ public class consumoDB {
         valores.put("kmAtual", consumo.getKmAtual());
         valores.put("qtdAbastecida", consumo.getQtdAbastecida());
         valores.put("valor", consumo.getValor());
-        valores.put("data", consumo.getData().toString());
+        valores.put("data", consumo.getData());
 
         conexao.insertOrThrow("abastecimentos", null, valores);
 
@@ -41,11 +39,13 @@ public class consumoDB {
         lista.invalidateViews();
     }
 
-    public void listarDados(List dados){
+    public void listarDados(List dados, float dadosConsumo[]){
         dados.clear();
         conexao = db.getReadableDatabase();
         String names[] ={"id", "kmAtual", "qtdAbastecida", "valor", "data"};
         Cursor query =conexao.query("abastecimentos", names, null, null, null, null, "id");
+
+        dadosConsumo[1] = 0;
 
         while(query.moveToNext()){
             Consumo consumo = new Consumo();
@@ -55,6 +55,8 @@ public class consumoDB {
             consumo.setValor(Float.valueOf(query.getString(3)));
             consumo.setData(query.getString(4));
             dados.add(consumo);
+            dadosConsumo[0] = consumo.getKmAtual();
+            dadosConsumo[1] += consumo.getQtdAbastecida();
         }
 
         conexao.close();

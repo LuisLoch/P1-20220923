@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -19,12 +20,15 @@ import br.unigran.bancoDeDados.DBHelper;
 import br.unigran.bancoDeDados.consumoDB;
 
 public class MainActivity extends AppCompatActivity {
+    TextView mediaConsumoTv;
     EditText kmAtual, qtdAbastecida, valor, data;
     List<Consumo> dados;
     ListView lista;
     DBHelper db;
     consumoDB consumoDB;
     Consumo consumo;
+    //primeiro numero do array é a kmTotal, segundo dado é a quantidade abastecida total
+    float dadosConsumo[] = {0, 0};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         qtdAbastecida = findViewById(R.id.idQtdAbastecida);
         valor = findViewById(R.id.idValor);
         data = findViewById(R.id.idData);
+        mediaConsumoTv = findViewById(R.id.idMediaConsumo);
         lista = findViewById(R.id.idLista);
 
         dados = new ArrayList<>();
@@ -46,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
 
         consumoDB = new consumoDB(db);
 
-        consumoDB.listarDados(dados);
+        consumoDB.listarDados(dados, dadosConsumo);
+        calculaMediaConsumo();
 
         acoes();
     }
@@ -55,18 +61,10 @@ public class MainActivity extends AppCompatActivity {
         lista.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                new AlertDialog.Builder(view.getContext())
-                        .setMessage("Deseja realmente remover o dado de consumo?")
-                        .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int j) {
-                                consumoDB.remover(dados.get(i).getId());
-                                consumoDB.listarDados(dados);
-                                consumoDB.atualizar(lista);
-                            }
-                        })
-                        .setNegativeButton("Não", null)
-                        .create().show();
+                consumoDB.remover(dados.get(i).getId());
+                consumoDB.listarDados(dados, dadosConsumo);
+                calculaMediaConsumo();
+                consumoDB.atualizar(lista);
                 return false;
             }
         });
@@ -75,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
     public void salvar(View view){
         if(consumo == null) consumo = new Consumo();
 
+        try {
         consumo.setKmAtual(Integer.valueOf(kmAtual.getText().toString()));
         consumo.setQtdAbastecida(Integer.valueOf(qtdAbastecida.getText().toString()));
         consumo.setValor(Float.valueOf(valor.getText().toString()));
@@ -82,12 +81,24 @@ public class MainActivity extends AppCompatActivity {
 
         consumoDB.inserir(consumo);
 
-        consumoDB.listarDados(dados);
-
+        consumoDB.listarDados(dados, dadosConsumo);
+        calculaMediaConsumo();
         consumoDB.atualizar(lista);
 
         consumo = null;
 
         Toast.makeText(getApplicationContext(), "Dados de consumo salvos", Toast.LENGTH_SHORT).show();
+        } catch (Exception e){
+            Toast.makeText(getApplicationContext(), "Insira dados em todos os campos.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void calculaMediaConsumo(){
+        float mediaConsumo = 0;
+        if(dadosConsumo[0]>0 && dadosConsumo[1]>0){
+            mediaConsumo = dadosConsumo[0]/dadosConsumo[1];
+            mediaConsumoTv.setText(mediaConsumo+"");
+        }else
+            mediaConsumoTv.setText("Ainda não há média de consumo.");
     }
 }
